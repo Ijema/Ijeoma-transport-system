@@ -1,0 +1,68 @@
+/* Home CSS */
+.body{
+  position: relative;
+  margin-bottom: -200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+}
+
+.note{
+  padding-left: 50px;
+}
+
+.note span{
+  text-decoration: underline;
+}
+
+.header, .footer{
+  background-color: #000;
+  color: #fff;
+}
+
+.content-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 100%;
+}
+
+.right-content{
+  border-left: 5px solid #000;
+  padding: 0px 50px;
+}
+
+.left-content{
+  padding: 0px 50px;
+}
+
+/* Add Customer Component */
+.add-customer-form div{
+  display: block;
+}
+
+.add-customer-form input{
+  float: right;
+}
+
+/* customer Details Component */
+/* Add this in your home.css or any other CSS file */
+.delete-button {
+  cursor: pointer;
+  color: red;
+}
+
+.customer-details-section{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 796px){ 
+  .content-container{
+    grid-template-columns: 1fr;
+  }
+  .right-content{
+    border-right: none;
+  }
+}

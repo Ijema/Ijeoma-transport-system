@@ -1,0 +1,42 @@
+.App{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* */
+
+/* Table style */
+
+#custom-table table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#custom-table thead{
+  background-color: #fafafa;
+}
+
+#custom-table td, #custom-table th {
+  border: 0px;
+  text-align: left;
+  padding: 20px;
+  font-size: 14px;
+}
+
+td{
+  cursor: pointer;
+}
+
+#custom-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+#custom-table tr:hover{
+  background-color: #fafafa;
+}
+
+#customer-heading{
+  margin-bottom: 30px;
+}
