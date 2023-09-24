@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './home.css';
-import CustomerDetails from '../customerDetails';
-import Planner from '../planner';
-import Footer from '../footer/footer'
-import Header from '../header/header'
+import CustomerDetails from '../components/customerDetails';
+import Planner from '../components/planner';
+import Footer from '../components/footer/footer'
+import Header from '../components/header/header'
 import { DragDropContext } from "react-beautiful-dnd";
 
 const Home = () => {
