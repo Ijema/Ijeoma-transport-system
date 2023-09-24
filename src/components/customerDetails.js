@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import '../styles/home.css';
 import AddCustomerModal from './addCustomer';
@@ -25,23 +25,38 @@ const Info = [
 ];
 
 const CustomerDetails = ({ onDragEnd, setDraggedItem }) => {
-  const [data, setData] = useState(
-    Info.map((e, index) => ({
-      id: e.id,
-      name: e.name,
-      address1: e.address1,
-      address2: e.address2,
-      delete: e.id, // Add 'delete' property with the same value as 'id'
-    }))
-  );
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Load data from local storage on component mount
+    const savedData = JSON.parse(localStorage.getItem('customerData'));
+    if (savedData) {
+      setData(savedData);
+    } else {
+      // If no data is found in local storage, initialize with default data
+      setData(
+        Info.map((e, index) => ({
+          id: e.id,
+          name: e.name,
+          address1: e.address1,
+          address2: e.address2,
+        }))
+      );
+    }
+  }, []);
 
   const addCustomerDetails = (newCustomer) => {
-    setData((prevData) => [...prevData, { ...newCustomer, delete: newCustomer.id }]);
+    const updatedData = [...data, newCustomer];
+    setData(updatedData);
+    // Save the updated data to local storage
+    localStorage.setItem('customerData', JSON.stringify(updatedData));
   };
 
   const handleDeleteCustomer = (customerId) => {
     const updatedData = data.filter((customer) => customer.id !== customerId);
     setData(updatedData);
+    // Save the updated data to local storage
+    localStorage.setItem('customerData', JSON.stringify(updatedData));
   };
 
   const columns = [
@@ -67,10 +82,12 @@ const CustomerDetails = ({ onDragEnd, setDraggedItem }) => {
     },
     {
       title: 'Action',
-      dataIndex: 'delete', // Use 'delete' as dataIndex
       key: 'x',
       render: (_, record) => (
-        <span onClick={() => handleDeleteCustomer(record.id)} className="delete-button">
+        <span
+          onClick={() => handleDeleteCustomer(record.id)}
+          className="delete-text"
+        >
           Delete
         </span>
       ),
@@ -97,14 +114,28 @@ const CustomerDetails = ({ onDragEnd, setDraggedItem }) => {
                   {columns.map(col => <th key={col.key}>{col.title}</th>)}
                 </tr>
                 </thead>
-                {data.map(row => (
-                  <tr draggable key={"row_" + row.id} onDragStart={() => { setDraggedItem(row) }}>
-                    <td>{row.id}</td>
-                    <td>{row.name}</td>
-                    <td>{row.address1}</td>
-                    <td>{row.address2}</td>
-                  </tr>
-                ))}
+                <tbody>
+                  {data.map((row, index) => (
+                    <tr
+                      draggable
+                      key={"row_" + row.id}
+                      onDragStart={() => setDraggedItem(row)}
+                    >
+                      <td>{row.id}</td>
+                      <td>{row.name}</td>
+                      <td>{row.address1}</td>
+                      <td>{row.address2}</td>
+                      <td>
+                        <span
+                          onClick={() => handleDeleteCustomer(row.id)}
+                          className="delete-text"
+                        >
+                          Delete
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </div>
           )}

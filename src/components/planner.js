@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'antd';
+import { Table, Dropdown, Menu } from 'antd';
 import { Droppable } from 'react-beautiful-dnd';
 import '../styles/home.css';
-// import { json } from 'react-router-dom';
-
 
 const currentDate = new Date();
 const initialData = [];
@@ -20,36 +18,74 @@ for (let i = 0; i <= 6; i++) {
   });
 }
 
-const Planner = ({ onDropCustomer,draggedItem }) => {
+const Planner = ({ onDropCustomer, draggedItem }) => {
   const [data, setData] = useState(initialData);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(()=>{
-    //checking browser storage for saved data
-    if(localStorage.getItem("my-db") !== null || undefined){
-      const data = localStorage.getItem("my-db")
-      setData(JSON.parse(data))
+  useEffect(() => {
+    // Checking browser storage for saved data
+    if (localStorage.getItem('my-db') !== null || undefined) {
+      const storedData = localStorage.getItem('my-db');
+      setData(JSON.parse(storedData));
     }
-  },[])
+  }, []);
 
-  const onDragOver = (e) => {
+  const handleDragOver = (e) => {
     e.preventDefault();
   };
+
 
   const handleDrop = (e, date, slot) => {
     e.preventDefault();
-    const myData = [...data]
-
-    let current = myData.find(e=>{return e.date===date})
-    const index = myData.indexOf(current)
-    current[slot] = {id:draggedItem.id,name:draggedItem.name}
-
-    myData[index] = current
-    
-    setData(myData)
-
-    //save data to browser localStorage
-    localStorage.setItem('my-db',JSON.stringify(myData))
+    const myData = [...data];
+  
+    let current = myData.find((e) => e.date === date);
+    const index = myData.indexOf(current);
+  
+    if (current[slot].id !== null) {
+      setErrorMessage('Slot already occupied');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
+      return;
+    }
+  
+    current[slot] = { id: draggedItem.id, name: draggedItem.name };
+  
+    // Remove the item from source slot if it exists
+    const sourceSlot = myData.find((e) => e.date === draggedItem.date);
+    if (sourceSlot) {
+      sourceSlot[draggedItem.slot] = { id: null, name: '' };
+    }
+  
+    myData[index] = current;
+    setData(myData);
+  
+    // Save data to browser localStorage
+    localStorage.setItem('my-db', JSON.stringify(myData));
+  
+    // Remove the item from localStorage
+    localStorage.removeItem(draggedItem.id);
   };
+
+  const handleDeleteSlot = (date, slot) => {
+    const myData = [...data];
+    let current = myData.find((e) => e.date === date);
+    const index = myData.indexOf(current);
+    current[slot] = { id: null, name: '' };
+    myData[index] = current;
+    setData(myData);
+    localStorage.setItem('my-db', JSON.stringify(myData));
+  };
+
+  const handleDeleteActions = (date) => (
+    <Menu onClick={({ key }) => handleDeleteSlot(date, key)}>
+      <Menu.Item key="slot1">Delete Slot 1</Menu.Item>
+      <Menu.Item key="slot2">Delete Slot 2</Menu.Item>
+      <Menu.Item key="slot3">Delete Slot 3</Menu.Item>
+      <Menu.Item key="slot4">Delete Slot 4</Menu.Item>
+    </Menu>
+  );
 
   const columns = [
     {
@@ -63,9 +99,11 @@ const Planner = ({ onDropCustomer,draggedItem }) => {
       dataIndex: 'slot1',
       align: 'right',
       onCell: (row) => ({
+        onDragOver: (e) => {
+          handleDragOver(e);
+        },
         onDrop: (e) => {
-          // Handle your event here
-          handleDrop(e,row.date,"slot1")
+          handleDrop(e, row.date, 'slot1');
         },
       }),
       render: (data) => <div>{data.name}</div>,
@@ -76,9 +114,11 @@ const Planner = ({ onDropCustomer,draggedItem }) => {
       dataIndex: 'slot2',
       align: 'right',
       onCell: (row) => ({
+        onDragOver: (e) => {
+          handleDragOver(e);
+        },
         onDrop: (e) => {
-          // Handle your event here
-          handleDrop(e,row.date,"slot2")
+          handleDrop(e, row.date, 'slot2');
         },
       }),
       render: (data) => <div>{data.name}</div>,
@@ -89,9 +129,11 @@ const Planner = ({ onDropCustomer,draggedItem }) => {
       dataIndex: 'slot3',
       align: 'right',
       onCell: (row) => ({
+        onDragOver: (e) => {
+          handleDragOver(e);
+        },
         onDrop: (e) => {
-          // Handle your event here
-          handleDrop(e,row.date,"slot3")
+          handleDrop(e, row.date, 'slot3');
         },
       }),
       render: (data) => <div>{data.name}</div>,
@@ -102,34 +144,46 @@ const Planner = ({ onDropCustomer,draggedItem }) => {
       dataIndex: 'slot4',
       align: 'right',
       onCell: (row) => ({
+        onDragOver: (e) => {
+          handleDragOver(e);
+        },
         onDrop: (e) => {
-          // Handle your event here
-          handleDrop(e,row.date,"slot4")
+          handleDrop(e, row.date, 'slot4');
         },
       }),
       render: (data) => <div>{data.name}</div>,
+    },
+    {
+      title: 'Delete',
+      dataIndex: 'date',
+      render: (date) => (
+        <Dropdown overlay={handleDeleteActions(date)}>
+          <a className="ant-dropdown-link" href='./' onClick={(e) => e.preventDefault()}>
+            Delete
+          </a>
+        </Dropdown>
+      ),
     },
   ];
 
   return (
     <div className='right-content'>
       <h2>Planner</h2>
-      <Droppable droppableId="planner" type="CUSTOMER">
+      {errorMessage && <div className='error'>{errorMessage}</div>}
+      <Droppable droppableId='planner' type='CUSTOMER'>
         {(provided) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            onDragOver={onDragOver}
-            onDrop={null}
           >
             <Table
               columns={columns}
               showHeader={true}
               dataSource={data}
               rowKey={(record) => record.date}
-              rowClassName={() => 'planner-row'} // Add this line to style the Planner row
+              rowClassName={() => 'planner-row'} 
             />
-          </div> 
+          </div>
         )}
       </Droppable>
     </div>

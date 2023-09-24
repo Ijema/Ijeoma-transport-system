@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Ijeoma-transport-system/static/css/main.7c08ca7c.css",
-    "main.js": "/Ijeoma-transport-system/static/js/main.619ec8bb.js",
-    "static/js/787.e432c54d.chunk.js": "/Ijeoma-transport-system/static/js/787.e432c54d.chunk.js",
-    "index.html": "/Ijeoma-transport-system/index.html",
-    "main.7c08ca7c.css.map": "/Ijeoma-transport-system/static/css/main.7c08ca7c.css.map",
-    "main.619ec8bb.js.map": "/Ijeoma-transport-system/static/js/main.619ec8bb.js.map",
-    "787.e432c54d.chunk.js.map": "/Ijeoma-transport-system/static/js/787.e432c54d.chunk.js.map"
+    "main.css": "/static/css/main.ff24b948.css",
+    "main.js": "/static/js/main.e44b13bd.js",
+    "static/js/787.e432c54d.chunk.js": "/static/js/787.e432c54d.chunk.js",
+    "index.html": "/index.html",
+    "main.ff24b948.css.map": "/static/css/main.ff24b948.css.map",
+    "main.e44b13bd.js.map": "/static/js/main.e44b13bd.js.map",
+    "787.e432c54d.chunk.js.map": "/static/js/787.e432c54d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7c08ca7c.css",
-    "static/js/main.619ec8bb.js"
+    "static/css/main.ff24b948.css",
+    "static/js/main.e44b13bd.js"
   ]
 }
