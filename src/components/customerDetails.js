@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import './home/home.css';
+import '../styles/home.css';
 import AddCustomerModal from './addCustomer';
 
 const Info = [
