@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Ijeoma-transport-system/static/css/main.7c08ca7c.css",
+    "main.js": "/Ijeoma-transport-system/static/js/main.5b8f41e0.js",
+    "static/js/787.e432c54d.chunk.js": "/Ijeoma-transport-system/static/js/787.e432c54d.chunk.js",
+    "index.html": "/Ijeoma-transport-system/index.html",
+    "main.7c08ca7c.css.map": "/Ijeoma-transport-system/static/css/main.7c08ca7c.css.map",
+    "main.5b8f41e0.js.map": "/Ijeoma-transport-system/static/js/main.5b8f41e0.js.map",
+    "787.e432c54d.chunk.js.map": "/Ijeoma-transport-system/static/js/787.e432c54d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7c08ca7c.css",
+    "static/js/main.5b8f41e0.js"
+  ]
+}
