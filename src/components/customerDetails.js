@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Table } from 'antd';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import './home/home.css';
 import AddCustomerModal from './addCustomer';
 

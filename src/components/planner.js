@@ -55,7 +55,7 @@ const Planner = ({ onDropCustomer,draggedItem }) => {
     {
       title: 'Date',
       dataIndex: 'date',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a href="./">{text}</a>,
     },
     {
       title: 'Slot1',
